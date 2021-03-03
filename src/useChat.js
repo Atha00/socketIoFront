@@ -3,15 +3,17 @@ import socketIOClient from "socket.io-client";
 
 const NEW_CHAT_MESSAGE_EVENT = "chat message";
 const NEW_CONNECTION = "connection";
-const SOCKET_SERVER_URL = "https://socketchat-backend.herokuapp.com/";
+// const SOCKET_SERVER_URL = "https://socketchat-backend.herokuapp.com/";
+const SOCKET_SERVER_URL = "http://localhost:3001";
 
-const useChat = () => {
+const useChat = name => {
   const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]);
   const [alertTyping, setAlertTyping] = useState("");
   const socketRef = useRef();
 
   useEffect(() => {
-    socketRef.current = socketIOClient(SOCKET_SERVER_URL);
+    socketRef.current = socketIOClient(SOCKET_SERVER_URL, { query: { name } });
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, message => {
       const incomingMessage = message;
       setMessages(messages => [...messages, incomingMessage]);
@@ -19,6 +21,10 @@ const useChat = () => {
     socketRef.current.on(NEW_CONNECTION, message => {
       const incomingMessage = message;
       setMessages(messages => [...messages, incomingMessage]);
+    });
+    socketRef.current.emit("user list");
+    socketRef.current.on("user list", array => {
+      setUsers(array);
     });
     socketRef.current.on("is typing", text => {
       setAlertTyping(text);
@@ -29,7 +35,7 @@ const useChat = () => {
     return () => {
       socketRef.current.disconnect();
     };
-  }, []);
+  }, [name]);
 
   const sendMessage = messageBody => {
     socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, messageBody);
@@ -40,7 +46,14 @@ const useChat = () => {
   const removeAlert = () => {
     socketRef.current.emit("clean alert typing", alertTyping);
   };
-  return { messages, sendMessage, tellIfTyping, removeAlert, alertTyping };
+  return {
+    messages,
+    sendMessage,
+    tellIfTyping,
+    removeAlert,
+    alertTyping,
+    users
+  };
 };
 
 export default useChat;
