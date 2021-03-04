@@ -14,9 +14,7 @@ function ChatRoom(props) {
     users
   } = useChat(name);
 
-  // console.log(messages);
   const [newMessage, setNewMessage] = useState("");
-  // const [alertTyping, setAlertTyping] = useState("");
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -29,12 +27,11 @@ function ChatRoom(props) {
     <div className="chat-room">
       <div>
         {users.map((elem, index) => {
-          return <p key={index}>{elem}</p>;
+          return <p key={index}>{elem.name}</p>;
         })}
       </div>
       <ol id="messages-list">
         {messages.map((message, index) => {
-          console.log(message);
           return <li key={index}>{message}</li>;
         })}
       </ol>
