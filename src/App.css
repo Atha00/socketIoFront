@@ -1,10 +1,28 @@
+/* Design du chat */
+
 .chat-room {
+  display: flex;
+  flex-direction: row-reverse;
   margin: 0;
   padding-bottom: 3rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
 }
-
+.chat-room > div {
+  border: 2px solid black;
+  overflow: scroll;
+  height: calc(100vh - 3rem);
+}
+.chat-room > div:first-child {
+  flex: 1;
+  padding: 5px;
+}
+.chat-room > div:last-child {
+  flex: 7;
+  padding: 5px;
+  display: flex;
+  flex-direction: column-reverse;
+}
 #form {
   background: rgba(0, 0, 0, 0.15);
   padding: 0.25rem;
@@ -55,4 +73,17 @@
   background-color: darkmagenta;
   color: white;
   bottom: 3rem;
+}
+
+/* Page du name-select */
+
+.name-select {
+  display: flex;
+  flex-direction: column;
+  margin: 50px;
+  justify-content: center;
+  align-items: center;
+}
+.alert-message {
+  color: red;
 }

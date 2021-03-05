@@ -30,28 +30,30 @@ function ChatRoom(props) {
           return <p key={index}>{elem.name}</p>;
         })}
       </div>
-      <ol id="messages-list">
-        {messages.map((message, index) => {
-          return <li key={index}>{message}</li>;
-        })}
-      </ol>
-      {alertTyping && <p className={"is-typing"}>{alertTyping}</p>}
-      <form id="form" onSubmit={handleSubmit}>
-        <input
-          id="input"
-          autoComplete="off"
-          value={newMessage}
-          onChange={event => {
-            if (event.target.value.length > 0) {
-              tellIfTyping();
-            } else if (event.target.value.length === 0) {
-              removeAlert();
-            }
-            setNewMessage(event.target.value);
-          }}
-        />
-        <button>Send</button>
-      </form>
+      <div>
+        <ol id="messages-list">
+          {messages.map((message, index) => {
+            return <li key={index}>{message}</li>;
+          })}
+        </ol>
+        {alertTyping && <p className={"is-typing"}>{alertTyping}</p>}
+        <form id="form" onSubmit={handleSubmit}>
+          <input
+            id="input"
+            autoComplete="off"
+            value={newMessage}
+            onChange={event => {
+              if (event.target.value.length > 0) {
+                tellIfTyping();
+              } else if (event.target.value.length === 0) {
+                removeAlert();
+              }
+              setNewMessage(event.target.value);
+            }}
+          />
+          <button>Send</button>
+        </form>
+      </div>
     </div>
   );
 }
