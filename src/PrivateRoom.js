@@ -1,11 +1,14 @@
 import React from "react";
 /* import "./style.css"; */
+
 import useChat from "./useChat";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function ChatRoom(props) {
+function PrivateRoom(props) {
+  console.log(props);
   const { name } = props.match.params;
+
   const {
     messages,
     sendMessage,
@@ -29,13 +32,7 @@ function ChatRoom(props) {
       <div>
         {users.map((elem, index) => {
           return (
-            <Link
-              to={{
-                pathname: `/private/${name}`,
-                state: { private: true }
-              }}
-              target="_blank"
-            >
+            <Link to={"/private/" + name} target="_blank">
               <p key={index}>{elem.name}</p>
             </Link>
           );
@@ -69,4 +66,4 @@ function ChatRoom(props) {
   );
 }
 
-export default ChatRoom;
+export default PrivateRoom;
