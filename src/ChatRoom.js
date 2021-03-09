@@ -12,6 +12,7 @@ function ChatRoom(props) {
     tellIfTyping,
     removeAlert,
     alertTyping,
+    sendingPrivateMessage,
     users
   } = useChat(name);
 
@@ -29,15 +30,14 @@ function ChatRoom(props) {
       <div>
         {users.map((elem, index) => {
           return (
-            <Link
-              to={{
-                pathname: `/private/${name}`,
-                state: { private: true }
+            <div
+              onClick={() => {
+                console.log(elem.id);
+                sendingPrivateMessage(elem.id);
               }}
-              target="_blank"
             >
               <p key={index}>{elem.name}</p>
-            </Link>
+            </div>
           );
         })}
       </div>
