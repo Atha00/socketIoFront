@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from "react";
+
 import socketIOClient from "socket.io-client";
 
 const NEW_CHAT_MESSAGE_EVENT = "chat message";
 const NEW_CONNECTION = "connection";
-const SOCKET_SERVER_URL = "https://socketchat-backend.herokuapp.com/";
-// const SOCKET_SERVER_URL = "http://localhost:3001";
+// const SOCKET_SERVER_URL = "https://socketchat-backend.herokuapp.com/";
+const SOCKET_SERVER_URL = "http://localhost:3001";
 
-const useChat = name => {
+const useChat = (name, text) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const [alertTyping, setAlertTyping] = useState("");
   const socketRef = useRef();
 
   useEffect(() => {
-    socketRef.current = socketIOClient(SOCKET_SERVER_URL, { query: { name } });
+    socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
+      query: { name, text }
+    });
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, message => {
       const incomingMessage = message;
       setMessages(messages => [...messages, incomingMessage]);
@@ -36,6 +39,13 @@ const useChat = name => {
     });
     socketRef.current.on("clean alert typing", () => {
       setAlertTyping("");
+    });
+    socketRef.current.on("received PM", text => {
+      console.log(text);
+      window.open(`http://localhost:3000/private/${name}/${text}`, "_blank");
+      socketRef.current.emit("opening private room", text);
+      // const incomingMessage = text;
+      // setMessages(messages => [...messages, incomingMessage]);
     });
     return () => {
       socketRef.current.disconnect();

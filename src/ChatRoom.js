@@ -31,12 +31,13 @@ function ChatRoom(props) {
         {users.map((elem, index) => {
           return (
             <div
+              key={index}
               onClick={() => {
                 console.log(elem.id);
                 sendingPrivateMessage(elem.id);
               }}
             >
-              <p key={index}>{elem.name}</p>
+              <p>{elem.name}</p>
             </div>
           );
         })}

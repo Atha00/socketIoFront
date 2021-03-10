@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 function PrivateRoom(props) {
   console.log(props);
-  const { name } = props.match.params;
+  const { name, text } = props.match.params;
 
   const {
     messages,
@@ -15,8 +15,9 @@ function PrivateRoom(props) {
     tellIfTyping,
     removeAlert,
     alertTyping,
+    sendingPrivateMessage,
     users
-  } = useChat(name);
+  } = useChat(name, text);
 
   const [newMessage, setNewMessage] = useState("");
 
