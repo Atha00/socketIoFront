@@ -4,8 +4,8 @@ import socketIOClient from "socket.io-client";
 
 const NEW_CHAT_MESSAGE_EVENT = "chat message";
 const NEW_CONNECTION = "connection";
-// const SOCKET_SERVER_URL = "https://socketchat-backend.herokuapp.com/";
-const SOCKET_SERVER_URL = "http://localhost:3001";
+const SOCKET_SERVER_URL = "https://socketchat-backend.herokuapp.com/";
+// const SOCKET_SERVER_URL = "http://localhost:3001";
 
 const useChat = (name, text) => {
   const [messages, setMessages] = useState([]);
